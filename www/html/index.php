@@ -4,6 +4,7 @@ require_once '../model/functions.php';
 require_once '../model/user.php';
 require_once '../model/item.php';
 
+//セッション開始(ログインチェック)
 session_start();
 
 if(is_logined() === false){
