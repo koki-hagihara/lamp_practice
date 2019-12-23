@@ -40,7 +40,7 @@ function get_file($name){
 }
 
 
-//登録済のセッション変数の値を返す関数
+//$nameを渡すと$_SESSION[$name]がセット済みか確認しその値または空文字を返す
 function get_session($name){
   //セッション変数が登録済であれば
   if(isset($_SESSION[$name]) === true){
@@ -71,6 +71,7 @@ function get_errors(){
 }
 
 function has_error(){
+  //$_SESSION変数がセットされておりかつ中の値の数が0でない
   return isset($_SESSION['__errors']) && count($_SESSION['__errors']) !== 0;
 }
 
@@ -88,7 +89,7 @@ function get_messages(){
   return $messages;
 }
 
-//セッション変数がセット済みかどうか判断する関数
+//get_session関数の結果を返す関数
 function is_logined(){
   //get_session関数で取得した$_SESSION['user_id]が空文字ならFALSE、空文字じゃなければTRUE
   return get_session('user_id') !== '';

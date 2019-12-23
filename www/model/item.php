@@ -52,7 +52,10 @@ function get_all_items($db){
   return get_items($db);
 }
 
+
 function get_open_items($db){
+  //公開ステータス「公開」の商品全ての情報を取得
+  //fetchAllメソッドの結果 or falseを返す
   return get_items($db, true);
 }
 
@@ -180,6 +183,8 @@ function delete_item($db, $item_id){
 
 // 非DB
 
+//渡すもの:商品のデータ
+//返すもの:商品公開ステータス===1,またはfalse
 function is_open($item){
   //商品の公開ステータスをリターン
   return $item['status'] === 1;
