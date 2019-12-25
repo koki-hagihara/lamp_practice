@@ -57,9 +57,7 @@ function fetch_all_query($db, $sql, $params = array()){
 
 function execute_query($db, $sql, $params = array()){
   try{
-    //prepareメソッドでデータベースに送信するSQL文の準備をし$statementに格納、queryメソッドと違い?で記述しておくことができる
     $statement = $db->prepare($sql);
-    //SQL文に引数(?)があった場合executeメソッドの引数にその値を配列の形で指定
     //executeメソッドでsqlを実行しリターン
     return $statement->execute($params);
   }catch(PDOException $e){

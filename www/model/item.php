@@ -132,13 +132,16 @@ function update_item_stock($db, $item_id, $stock){
     UPDATE
       items
     SET
-      stock = {$stock}
+      stock = :stock
     WHERE
-      item_id = {$item_id}
+      item_id = :item_id
     LIMIT 1
   ";
+  $param = array(':stock'=>$stock,':item_id'=>$item_id);
+  //UPDATE items SET stock = 20 WHERE item_id = 1 LIMIT 1
+  //UPDATE items SET stock = 4, price = 18000, name = 'hacked' WHERE item_id =1 LIMIT 1
   //execute_query関数でSQLを実行
-  return execute_query($db, $sql);
+  return execute_query($db, $sql,$param);
 }
 
 function destroy_item($db, $item_id){
