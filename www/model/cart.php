@@ -84,10 +84,11 @@ function insert_cart($db, $item_id, $user_id, $amount = 1){
         user_id,
         amount
       )
-    VALUES({$item_id}, {$user_id}, {$amount})
+    VALUES(:item_id, :user_id, :amount)
   ";
+  $params = array(':item_id' => $item_id, ':user_id' => $user_id, ':amount' => $amount);
 //SQL実行した結果 or falseをリターン
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, $params);
 }
 
 function update_cart_amount($db, $cart_id, $amount){
@@ -96,13 +97,14 @@ function update_cart_amount($db, $cart_id, $amount){
     UPDATE
       carts
     SET
-      amount = {$amount}
+      amount = :amount
     WHERE
-      cart_id = {$cart_id}
+      cart_id = :cart_id
     LIMIT 1
   ";
+  $params = array(':amount' => $amount, ':cart_id' => $cart_id);
   //SQL文の実行
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, $params);
 }
 
 //データベースへのリンク・カートIDを渡すと対象レコード削除のSQLを実行しその結果を返す関数
@@ -112,12 +114,12 @@ function delete_cart($db, $cart_id){
     DELETE FROM
       carts
     WHERE
-      cart_id = {$cart_id}
+      cart_id = :cart_id
     LIMIT 1
   ";
-
+  $params = array(':cart_id' => $cart_id);
   //SQL実行し結果を返す
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, $params);
 }
 
 //渡すもの:データベースへのリンク、該当ユーザーのカートの中身の配列
@@ -153,10 +155,11 @@ function delete_user_carts($db, $user_id){
     DELETE FROM
       carts
     WHERE
-      user_id = {$user_id}
+      user_id = :user_id
   ";
+  $params = array(':user_id' => $user_id);
 //SQL実行、失敗の場合falseを返す
-  execute_query($db, $sql);
+  execute_query($db, $sql, $params);
 }
 
 //渡すもの:カートの中身情報の配列
