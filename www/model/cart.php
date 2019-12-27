@@ -1,6 +1,7 @@
 <?php 
 require_once 'functions.php';
 require_once 'db.php';
+require_once 'history.php';
 
 //渡すもの:データベースへのリンク、ユーザーID
 //返すもの:該当ユーザーのカートの中身情報の全行配列またはfalse
@@ -130,7 +131,11 @@ function purchase_carts($db, $carts){
     //falseを返す
     return false;
   }
-  //$carts内をループ
+
+  //トランザクション開始
+  $db->beginTransaction();
+
+  //$carts内をループし購入分だけ商品在庫を減らす
   foreach($carts as $cart){
     //$carts内の商品ID・在庫から購入数を引いた数をupdate_item_stock関数に渡し、update文実行
     //失敗の場合$_SESSIONにエラーメッセージ代入
@@ -146,6 +151,8 @@ function purchase_carts($db, $carts){
   
   //該当ユーザーのカートの中身をデータベースから削除
   delete_user_carts($db, $carts[0]['user_id']);
+
+  record_order_history();
 }
 
 //渡すもの:データベースへのリンク、ユーザーID
