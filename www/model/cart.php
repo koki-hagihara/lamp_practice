@@ -131,28 +131,43 @@ function purchase_carts($db, $carts){
     //falseを返す
     return false;
   }
+  try {
+    //トランザクション開始
+    $db->beginTransaction();
 
-  //トランザクション開始
-  $db->beginTransaction();
-
-  //$carts内をループし購入分だけ商品在庫を減らす
-  foreach($carts as $cart){
-    //$carts内の商品ID・在庫から購入数を引いた数をupdate_item_stock関数に渡し、update文実行
-    //失敗の場合$_SESSIONにエラーメッセージ代入
-    if(update_item_stock(
-        $db, 
-        $cart['item_id'], 
-        $cart['stock'] - $cart['amount']
-      ) === false){
-        //$_SESSIONにエラーメッセージ代入
-      set_error($cart['name'] . 'の購入に失敗しました。');
+    //$carts内をループし購入分だけ商品在庫を減らす
+    foreach($carts as $cart){
+      //$carts内の商品ID・在庫から購入数を引いた数をupdate_item_stock関数に渡し、update文実行
+      //失敗の場合$_SESSIONにエラーメッセージ代入
+      if(update_item_stock(
+          $db, 
+          $cart['item_id'], 
+          $cart['stock'] - $cart['amount']
+        ) === false){
+          //$_SESSIONにエラーメッセージ代入
+        set_error($cart['name'] . 'の購入に失敗しました。');
+      }
     }
-  }
   
-  //該当ユーザーのカートの中身をデータベースから削除
-  delete_user_carts($db, $carts[0]['user_id']);
+    //該当ユーザーのカートの中身をデータベースから削除
+    delete_user_carts($db, $carts[0]['user_id']);
 
-  record_order_history();
+    //order_historyテーブルに購入履歴残す
+    record_order_history($db, $carts[0]['user_id']);
+
+    //history_detailsテーブルに購入明細残す
+    global $order_number;
+    $order_number = $db->lastInsertId();
+    foreach ($carts as $cart) {
+      record_order_details($db, $order_number, $cart['item_id'], $cart['amount']);
+    }
+
+    $db->commit();
+  } catch(PDOException $e) {
+    $db->rollback();
+    return false;
+  }
+
 }
 
 //渡すもの:データベースへのリンク、ユーザーID

@@ -1,7 +1,7 @@
 CREATE TABLE order_history (
     order_number int(11) NOT NULL AUTO_INCREMENT,
     user_id int(11),
-    order_date datetime,
+    order_date datetime DEFAULT CURRENT_TIMESTAMP,
     primary key(order_number)
     );
 
