@@ -25,6 +25,8 @@ define('CART_URL', '/cart.php');
 define('FINISH_URL', '/finish.php');
 define('ADMIN_URL', '/admin.php');
 
+define('HISTORY_URL', '/order_history.php');
+
 //半角の英数字1文字以上
 define('REGEXP_ALPHANUMERIC', '/\A[0-9a-zA-Z]+\z/');
 //1-9のうち1つ、0-9のうち1つもしくはなし、または0、(0以上の整数?)
