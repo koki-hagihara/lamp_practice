@@ -159,7 +159,7 @@ function purchase_carts($db, $carts){
     global $order_number;
     $order_number = $db->lastInsertId();
     foreach ($carts as $cart) {
-      record_order_details($db, $order_number, $cart['item_id'], $cart['amount']);
+      record_order_details($db, $order_number, $cart['item_id'], $cart['price'], $cart['amount']);
     }
 
     $db->commit();

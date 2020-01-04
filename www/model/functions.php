@@ -62,11 +62,15 @@ function set_error($error){
 }
 
 function get_errors(){
+  //$_SESSION['__errors']の中身を$errorsに代入
   $errors = get_session('__errors');
+  //エラーメッセージが空であれば空の配列を返す
   if($errors === ''){
     return array();
   }
+  //$_SESSION['__errors']にarray()をセット
   set_session('__errors',  array());
+  //$errorsを返す
   return $errors;
 }
 

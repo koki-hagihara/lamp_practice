@@ -50,6 +50,7 @@
 
     <?php if(count($items) > 0){ ?>
       <table class="table table-bordered text-center">
+      <!-- theadタグ:行をグループ化(ヘッダー)、thead-light:テーブルのヘッダー部分を薄い灰色に-->
         <thead class="thead-light">
           <tr>
             <th>商品画像</th>
@@ -59,6 +60,7 @@
             <th>操作</th>
           </tr>
         </thead>
+        <!-- tbodyタグ:行をグループ化(ボディ)-->
         <tbody>
           <?php foreach($items as $item){ ?>
           <tr class="<?php print(is_open($item) ? '' : 'close_item'); ?>">

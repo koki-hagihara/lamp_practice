@@ -9,6 +9,7 @@ require_once MODEL_PATH . 'user.php';
 require_once MODEL_PATH . 'item.php';
 //カート機能に関する関数ファイル読み込み
 require_once MODEL_PATH . 'cart.php';
+require_once MODEL_PATH . 'history.php';
 
 //セッション開始(ログインチェック)
 session_start();

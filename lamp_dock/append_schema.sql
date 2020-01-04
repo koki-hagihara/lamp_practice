@@ -8,5 +8,6 @@ CREATE TABLE order_history (
 CREATE TABLE order_details (
     order_number int(11),
     item_id int(11),
+    price int(11),
     amount int(11)
     );
