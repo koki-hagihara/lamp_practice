@@ -116,7 +116,7 @@ function get_upload_filename($file){
   return get_random_string() . '.' . $ext;
 }
 
-//ランダムな文字列を取得しファイル名とする関数
+//ランダムな文字列を取得する関数
 function get_random_string($length = 20){
   //substr(対象文字列,切り出し開始位置,切り出し文字数)
   //base_convert(変換する数値(number),変換前のnumberの基数,変換後のnumberの基数)、下記は16進数から36進数への変換

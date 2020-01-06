@@ -9,6 +9,8 @@ require_once MODEL_PATH . 'user.php';
 require_once MODEL_PATH . 'item.php';
 //カート機能に関する関数ファイル読み込み
 require_once MODEL_PATH . 'cart.php';
+require_once '../model/csrf.php';
+
 
 //セッション開始(ログインチェック)
 session_start();
@@ -17,6 +19,13 @@ session_start();
 if(is_logined() === false){
   //ログイン画面へリダイレクト
   redirect_to(LOGIN_URL);
+}
+
+$token = get_post('token');
+
+if (is_valid_csrf_token($token) === false) {
+  set_error('不正なリクエストです');
+  redirect_to(HOME_URL);
 }
 
 //データベース接続(データベースへのリンクを取得)
@@ -36,6 +45,9 @@ if(add_cart($db,$user['user_id'], $item_id)){
 } else {
   set_error('カートの更新に失敗しました。');
 }
+
+$token = token_destroy($token);
+
 
 //商品一覧ページへリダイレクト
 redirect_to(HOME_URL);
